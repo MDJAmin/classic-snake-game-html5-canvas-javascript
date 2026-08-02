@@ -1,89 +1,62 @@
-<!-- Enjoy!! 👾 -->
-
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0"
-    />
-    <link
-      rel="shortcut icon"
-      href="favicon.jpg"
-      type="image/x-icon"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css?family=Varela+Round"
-    />
-    <link
-      rel="stylesheet"
-      href="css/style.css"
-    />
-    <title>Snake Game</title>
-  </head>
-
-  <body>
-    <div class="container">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+  <title>snake · mdjamin</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="container">
+    <div class="score-container">
       <div class="score">Score: <span class="score_val">0</span></div>
-      <div class="canvas-wrapper">
-        <canvas
-          width="400"
-          height="400"
-        ></canvas>
-      </div>
-      <div class="controls">
-        <button class="btn-start">Start</button>
-        <button class="btn-pause">Pause</button>
-        <div class="range range-difficulty">
-          <label for="difficulty">Speed</label>
-          <div class="range_inputWrapper">
-            <span class="range_inputSlider"></span>
-            <div class="range_inputValue"></div>
-            <input
-              type="range"
-              name="difficulty"
-              value="8"
-              min="1"
-              max="10"
-              step="1"
-            />
-          </div>
-        </div>
-        <div class="range range-columns">
-          <label for="columns">Cells</label>
-          <div class="range_inputWrapper">
-            <span class="range_inputSlider"></span>
-            <div class="range_inputValue"></div>
-            <input
-              type="range"
-              name="columns"
-              value="20"
-              min="10"
-              max="100"
-              step="10"
-            />
-          </div>
+      <div class="high-score">High Score: <span class="high_score_val">0</span></div>
+    </div>
+    <div class="canvas-wrapper">
+      <canvas width="400" height="400"></canvas>
+    </div>
+    <div class="controls">
+      <button class="btn-start">Start</button>
+      <button class="btn-pause">Pause</button>
+      <div class="range range-difficulty">
+        <label for="difficulty">Speed</label>
+        <div class="range_inputWrapper">
+          <span class="range_inputSlider"></span>
+          <div class="range_inputValue"></div>
+          <input type="range" name="difficulty" value="8" min="1" max="10" step="1" />
         </div>
       </div>
-      <div class="mobile-controls">
-        <button class="btn-left">⬅</button>
+      <div class="range range-columns">
+        <label for="columns">Cells</label>
+        <div class="range_inputWrapper">
+          <span class="range_inputSlider"></span>
+          <div class="range_inputValue"></div>
+          <input type="range" name="columns" value="20" min="10" max="100" step="10" />
+        </div>
+      </div>
+    </div>
+    <div class="mobile-controls">
+      <div class="dpad">
+        <button class="btn-left" aria-label="left">
+          <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+        </button>
         <div class="upAndDown">
-          <button class="btn-up">⬆</button>
-          <button class="btn-down">⬇</button>
+          <button class="btn-up" aria-label="up">
+            <svg viewBox="0 0 24 24"><path d="M12 8l-6 6 1.41 1.41L12 10.83l4.59 4.58L18 14z"/></svg>
+          </button>
+          <button class="btn-down" aria-label="down">
+            <svg viewBox="0 0 24 24"><path d="M12 16l-6-6 1.41-1.41L12 13.17l4.59-4.58L18 10z"/></svg>
+          </button>
         </div>
-        <button class="btn-right">➡</button>
+        <button class="btn-right" aria-label="right">
+          <svg viewBox="0 0 24 24"><path d="M8.59 16.59L10 18l6-6-6-6-1.41 1.41L13.17 12z"/></svg>
+        </button>
       </div>
     </div>
-    <div class="MDJAminDiv">
-      <a
-        class="MDJAmin"
-        href="https://github.com/MDJAmin"
-        target="_blank"
-        >MDJAmin</a
-      >
-    </div>
-    <script src="js/script.js"></script>
-  </body>
+  </div>
+  <div class="MDJAminDiv">
+    <a class="MDJAmin" href="https://github.com/MDJAmin" target="_blank">MDJAmin</a>
+  </div>
+  <script src="js/script.js"></script>
+</body>
 </html>
