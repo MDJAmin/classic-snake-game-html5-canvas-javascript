@@ -1,17 +1,17 @@
-/* Enjoy!! 👾 */
-
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
+
 html,
 body {
   width: 100%;
   height: 100%;
-  margin: 0;
   background: #c8d218;
-  font-family: "Varela Round";
+  font-family: "Varela Round", sans-serif;
+  overflow: hidden;
+  position: fixed;
 }
 
 body {
@@ -22,12 +22,15 @@ body {
 
 .container {
   width: 90%;
-  max-width: 400px;
+  max-width: 420px;
   border: 9px solid #ffffff;
-  border-radius: 15px;
+  border-radius: 20px;
   box-shadow: 10px 10px 50px 15px rgba(0, 0, 0, 0.3);
   background-color: #455a64;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .canvas-wrapper {
@@ -46,91 +49,104 @@ canvas {
   height: 100%;
   width: 100%;
   background-color: #37474f;
+  border-radius: 10px 10px 0 0;
 }
 
 .controls {
   width: 100%;
-  padding-top: 20px;
-  padding-bottom: 0;
+  padding: 15px 10px 5px;
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
+  align-items: center;
 }
 
 button[class^="btn"] {
   background-color: #a0a809;
-  padding: 5px 20px;
+  padding: 8px 18px;
   text-transform: uppercase;
-  font-family: "Varela Round";
+  font-family: "Varela Round", sans-serif;
   font-size: 14px;
   color: rgb(255, 255, 255);
   font-weight: bold;
   border: none;
-  border-radius: 3px;
+  border-radius: 30px;
   letter-spacing: 0.3em;
-  height: 30px;
-  line-height: 30px;
-  padding: 0 10px;
-  box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.2);
+  height: 38px;
+  line-height: 38px;
+  padding: 0 16px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
   outline: none;
   cursor: pointer;
-  transition: box-shadow 0.3s, background 0.3s;
+  transition: all 0.2s ease;
   text-align: center;
-  margin: 0 20px 0;
-  margin-bottom: 20px;
-}
-button[class^="btn"]:hover {
-  background: #a0a809;
-  box-shadow: 0 0 20px 5px rgba(0, 0, 0, 0.3);
+  margin: 5px 8px;
+  background: #8a9200;
+  border-bottom: 3px solid #5c6100;
 }
 
-button[disabled] {
-  background: #a0a809;
+button[class^="btn"]:active {
+  transform: scale(0.96);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  border-bottom-width: 1px;
 }
 
 .range {
   width: 100%;
-  margin-bottom: 20px;
-  margin: 0 20px 20px;
+  margin: 8px 15px 12px;
   display: flex;
   align-items: center;
 }
+
 .range label {
   color: white;
   text-transform: uppercase;
-  margin-right: 20px;
-  width: 30%;
+  margin-right: 12px;
+  width: 50px;
+  font-size: 13px;
+  font-weight: bold;
+  letter-spacing: 0.5px;
 }
+
 .range_inputWrapper {
   width: 100%;
   position: relative;
-  height: 20px;
-  background-color: #fff;
-  box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.2);
+  height: 22px;
+  background-color: #ffffff;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
+  border-radius: 12px;
+  overflow: hidden;
 }
+
 .range_inputValue {
   position: absolute;
   left: 0;
   top: 0;
   height: 100%;
-  color: white;
-  font-size: 14px;
-  height: 100%;
-  padding-left: 3px;
-  line-height: 20px;
+  color: #2c3e50;
+  font-size: 13px;
+  padding-left: 8px;
+  line-height: 22px;
+  font-weight: bold;
+  z-index: 2;
+  pointer-events: none;
+  text-shadow: 0 1px 0 white;
 }
+
 .range_inputSlider {
   transform-origin: left top;
   position: absolute;
   top: 0;
   left: 0;
-  background: #a0a809;
+  background: linear-gradient(to right, #c0ca12, #a0a809);
   display: inline-block;
   width: 100%;
   height: 100%;
   transform: scaleX(0);
   transition: transform 0.2s ease-out;
+  border-radius: 12px 0 0 12px;
 }
+
 .range input {
   position: absolute;
   left: 0;
@@ -140,119 +156,161 @@ button[disabled] {
   margin: 0;
   opacity: 0;
   cursor: ew-resize;
-  z-index: 1;
+  z-index: 3;
+}
+
+.score-container {
+  position: absolute;
+  top: 12px;
+  left: 0;
+  z-index: 10;
+  width: 100%;
+  text-align: center;
+  color: white;
+  pointer-events: none;
 }
 
 .score {
-  position: absolute;
-  top: 10px;
-  left: 0;
-  z-index: 1;
-  width: 100%;
-  text-align: center;
   font-weight: bold;
-  font-size: 30px;
-  opacity: 0.3;
+  font-size: 28px;
+  opacity: 0.45;
   text-transform: uppercase;
-  color: white;
+  letter-spacing: 1px;
+  text-shadow: 0 2px 4px black;
 }
 
-.dpad {
-  width: 100px;
-  margin: 0 auto;
-  margin-bottom: 20px;
-  display: none;
-}
-
-button[class^="control"] {
-  background: #a0a809;
-  border: none;
-  border-radius: 3px;
-}
-
-.control-up {
-  display: block;
-}
-
-.control-down svg {
-  transform: rotate(180deg);
-}
-
-.control-left svg {
-  transform: rotate(90deg);
-}
-
-.control-right svg {
-  transform: rotate(-90deg);
+.high-score {
+  font-weight: bold;
+  font-size: 15px;
+  opacity: 0.5;
+  text-transform: uppercase;
+  margin-top: 2px;
+  letter-spacing: 0.5px;
 }
 
 .mobile-controls {
   display: none;
   align-items: center;
-  margin-bottom: 20px;
+  justify-content: center;
+  gap: 20px;
+  margin: 10px 0 20px;
+  padding: 0 10px;
+}
+
+.dpad {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
 }
 
 .upAndDown {
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  align-items: center;
+  gap: 16px;
 }
-.btn-up,
-.btn-down {
-  padding-left: 15.5px !important;
-}
+
 .btn-up,
 .btn-down,
 .btn-left,
 .btn-right {
-  width: 50px !important;
-  height: 50px !important;
-  margin: 2px !important;
-  border-radius: 50% !important;
-  font-size: 1.6em !important;
+  width: 56px;
+  height: 56px;
+  margin: 0;
+  border-radius: 50%;
+  font-size: 26px;
   text-align: center;
+  background: #7c8700;
+  border: none;
+  box-shadow: 0 6px 0 #4a5200, 0 8px 12px rgba(0,0,0,0.3);
+  color: white;
+  cursor: pointer;
+  line-height: 56px;
+  padding: 0;
+  letter-spacing: normal;
+  text-transform: none;
+  transition: all 0.08s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.btn-up:active,
+.btn-down:active,
+.btn-left:active,
+.btn-right:active {
+  transform: translateY(3px);
+  box-shadow: 0 3px 0 #4a5200, 0 5px 8px rgba(0,0,0,0.3);
+  background: #9aac0a;
+}
+
+.btn-up svg,
+.btn-down svg,
+.btn-left svg,
+.btn-right svg {
+  width: 28px;
+  height: 28px;
+  fill: white;
+  filter: drop-shadow(0 2px 2px rgba(0,0,0,0.4));
 }
 
 @media (max-width: 1000px) {
   .mobile-controls {
     display: flex;
-    align-items: center;
-    justify-content: center;
   }
 }
 
 @media (max-width: 450px) {
   button[class^="btn"] {
-    margin: 10px 10px;
-    margin-bottom: 30px;
+    margin: 5px 6px 10px;
+    font-size: 13px;
+    height: 34px;
+    line-height: 34px;
+    padding: 0 12px;
+  }
+  
+  .btn-up,
+  .btn-down,
+  .btn-left,
+  .btn-right {
+    width: 52px;
+    height: 52px;
+    line-height: 52px;
   }
 }
 
 @media (min-width: 450px) {
   button[class^="btn"] {
-    width: 150px;
+    width: auto;
+    min-width: 90px;
   }
 }
 
 .MDJAminDiv {
   z-index: 4444;
   position: fixed;
-  bottom: 5%;
-  left: 2%;
+  bottom: 3%;
+  left: 3%;
 }
 
 .MDJAmin {
   text-decoration: none;
-  border-top: 1px dashed rgb(255, 255, 255) !important;
-  border-bottom: 1px dashed rgb(255, 255, 255) !important;
-  padding: 4px 2px;
-  color: rgba(255, 255, 255, 0.414);
+  border-top: 1px dashed rgba(0,0,0,0.6);
+  border-bottom: 1px dashed rgba(0,0,0,0.6);
+  padding: 4px 4px;
+  color: rgba(0, 0, 0, 0.5);
   font-family: monospace;
   font-style: italic;
-  font-size: 1.3em;
+  font-size: 1.2em;
   transition: all 0.5s;
+  background: rgba(255,255,255,0.2);
+  border-radius: 2px;
 }
 
 .MDJAmin:hover {
-  color: rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
+  background: rgba(255,255,255,0.5);
 }
