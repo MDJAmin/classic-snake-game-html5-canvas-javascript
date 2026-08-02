@@ -1,17 +1,15 @@
-// Enjoy!! 👾
-
 let cellsNo = 20;
 let cellSize = 400 / cellsNo;
 let difficulty = 1;
-
 let score = 0;
 
 const canvas = document.querySelector("canvas");
-const ctx = canvas.getContext("2d"); // type of our dimensional (its 2d in our case!)
+const ctx = canvas.getContext("2d");
 
 const btnStart = document.querySelector(".btn-start");
 const btnPause = document.querySelector(".btn-pause");
 const scoreVal = document.querySelector(".score_val");
+const highScoreVal = document.querySelector(".high_score_val");
 
 let direction;
 const DIR = {
@@ -21,7 +19,6 @@ const DIR = {
   DOWN: 40,
 };
 
-// ctx.strokeStyle = '#616161'
 ctx.strokeStyle = "#27373F";
 ctx.fillStyle = "rgb(14, 198, 14)";
 
@@ -31,15 +28,44 @@ let paused = false;
 let needsGrowth = false;
 
 let lastUpdate, lastFood, tick;
-let state;
 let flash = false;
 let lastKeyPressed;
+
+function getHighScore() {
+  try {
+    const saved = localStorage.getItem("snakeHighScore");
+    return saved ? parseInt(saved, 10) : 0;
+  } catch (e) {
+    return 0;
+  }
+}
+
+function setHighScore(value) {
+  try {
+    localStorage.setItem("snakeHighScore", value);
+  } catch (e) {
+    console.warn("Could not save high score");
+  }
+}
+
+function updateHighScoreDisplay() {
+  highScoreVal.textContent = getHighScore();
+}
+
+function updateHighScoreIfNeeded(currentScore) {
+  const high = getHighScore();
+  if (currentScore > high) {
+    setHighScore(currentScore);
+    updateHighScoreDisplay();
+  }
+}
 
 function update() {
   tick = Date.now();
 
   if (hasCollisions()) {
     flash = true;
+    updateHighScoreIfNeeded(score);
     return;
   }
 
@@ -47,7 +73,6 @@ function update() {
     if (lastKeyPressed && lastKeyPressed !== direction) {
       setDirection(lastKeyPressed);
     }
-
     moveSnake();
     lastUpdate = tick;
   }
@@ -81,7 +106,7 @@ function snakeContains(cell) {
 
 function headMeetsFood() {
   const head = snake[0];
-  return food && head.x == food.x && head.y === food.y;
+  return food && head.x === food.x && head.y === food.y;
 }
 
 function moveSnake() {
@@ -138,7 +163,9 @@ function draw() {
 }
 
 function drawCells() {
-  for (var i = 0; i < cellsNo; ++i) for (var j = 0; j < cellsNo; ++j) drawCell(i, j);
+  for (let i = 0; i < cellsNo; ++i)
+    for (let j = 0; j < cellsNo; ++j)
+      drawCell(i, j);
 }
 
 function drawFood() {
@@ -160,7 +187,6 @@ function drawSnake() {
 function fillCell(x, y) {
   ctx.beginPath();
   ctx.rect(x * cellSize, y * cellSize, cellSize, cellSize);
-
   ctx.closePath();
   ctx.fill();
   ctx.stroke();
@@ -180,6 +206,7 @@ function startGame() {
   direction = DIR.LEFT;
   lastFood = lastUpdate = Date.now();
   paused = false;
+  updateHighScoreDisplay();
   setTimeout(putFood, 1000);
   const startX = cellsNo / 2;
   snake = [startX, startX + 1, startX + 2, startX + 3].map((x) => ({
@@ -196,6 +223,7 @@ function loop() {
   update();
 }
 
+updateHighScoreDisplay();
 requestAnimationFrame(loop);
 
 btnStart.addEventListener("click", startGame);
@@ -220,16 +248,22 @@ function onKeyDown({ keyCode }) {
 }
 
 function setDirection(keyCode) {
+  if (
+    (keyCode === DIR.DOWN && direction === DIR.UP) ||
+    (keyCode === DIR.UP && direction === DIR.DOWN) ||
+    (keyCode === DIR.LEFT && direction === DIR.RIGHT) ||
+    (keyCode === DIR.RIGHT && direction === DIR.LEFT)
+  ) {
+    return;
+  }
   direction = keyCode;
 }
 
 function checkFood() {
   if (!food) return;
-
   if (food.x >= cellsNo) {
     food.x = cellsNo - 1;
   }
-
   if (food.y >= cellsNo) {
     food.y = cellsNo - 1;
   }
@@ -241,7 +275,7 @@ class RangeSlider {
     this.slider = el.querySelector(".range_inputSlider");
     this.value = el.querySelector(".range_inputValue");
 
-    this.input.addEventListener("input", (_) => this.onChange());
+    this.input.addEventListener("input", () => this.onChange());
     this.input.addEventListener("keydown", (e) => {
       e.preventDefault();
     });
@@ -268,8 +302,7 @@ new RangeSlider(document.querySelector(".range-columns"), (value) => {
   checkFood();
 });
 
-// --- TOUCH CONTROLS
-var isPointerDown, pointerStart, pointerPos;
+let isPointerDown, pointerStart, pointerPos;
 
 function onTouchStart(e) {
   const { clientX, clientY } = e.touches[0];
@@ -295,6 +328,7 @@ function onTouchEnd() {
 }
 
 function touchToKeyCode(x, y) {
+  let keyCode;
   if (Math.abs(x) > Math.abs(y)) {
     if (x < -1) {
       keyCode = DIR.RIGHT;
@@ -308,7 +342,6 @@ function touchToKeyCode(x, y) {
       keyCode = DIR.UP;
     }
   }
-
   return keyCode;
 }
 
@@ -325,15 +358,3 @@ btnUp.addEventListener("click", () => setDirection(DIR.UP));
 btnDown.addEventListener("click", () => setDirection(DIR.DOWN));
 btnLeft.addEventListener("click", () => setDirection(DIR.LEFT));
 btnRight.addEventListener("click", () => setDirection(DIR.RIGHT));
-
-function setDirection(keyCode) {
-  if (
-    (keyCode === DIR.DOWN && direction === DIR.UP) ||
-    (keyCode === DIR.UP && direction === DIR.DOWN) ||
-    (keyCode === DIR.LEFT && direction === DIR.RIGHT) ||
-    (keyCode === DIR.RIGHT && direction === DIR.LEFT)
-  ) {
-    return;
-  }
-  direction = keyCode;
-}
